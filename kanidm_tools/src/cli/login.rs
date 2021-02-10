@@ -1,10 +1,9 @@
-use crate::common::CommonOpt;
+use crate::LoginOpt;
 use kanidm_client::{ClientError, KanidmClient};
 use kanidm_proto::v1::{AuthAllowed, AuthResponse, AuthState};
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::{self, BufReader, BufWriter};
-use structopt::StructOpt;
 use webauthn_authenticator_rs::{u2fhid::U2FHid, RequestChallengeResponse, WebauthnAuthenticator};
 
 static TOKEN_PATH: &str = "~/.cache/kanidm_tokens";
@@ -58,14 +57,6 @@ fn get_index_choice(len: usize) -> Result<u8, ClientError> {
             Err(_) => eprintln!("Invalid Number"),
         };
     }
-}
-
-#[derive(Debug, StructOpt)]
-pub struct LoginOpt {
-    #[structopt(flatten)]
-    pub copt: CommonOpt,
-    #[structopt(short = "w", long = "webauthn")]
-    pub webauthn: bool,
 }
 
 impl LoginOpt {
