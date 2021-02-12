@@ -218,12 +218,9 @@ async fn main() {
 
     // Check the permissions of the files from the configuration.
 
-    if let Some(i_str) = &(sconfig.tls_ca) {
-        let i_path = PathBuf::from(i_str.as_str());
-        let i_meta = read_file_metadata(&i_path);
-        if !i_meta.permissions().readonly() {
-            eprintln!("WARNING: permissions on {} may not be secure. Should be readonly to running uid. This could be a security risk ...", i_str);
-        }
+    if sconfig.tls_ca.is_some() {
+        eprintln!("ERROR: tls_ca is removed!, please append tls_ca file to the tls_cert file and update your server config!");
+        std::process::exit(1);
     }
 
     if let Some(i_str) = &(sconfig.tls_cert) {
