@@ -31,3 +31,21 @@ channel.
 Simply put, we are trying to use settings like secure_cookies to add constraints
 to the server so that you *must* perform and adhere to best practices - such
 as having TLS present on your communication channels.
+
+## Use a Let's Encrypt certificate
+
+Acquire your Let's Encrypt certificate.
+
+Go to Let's Encrypt folder
+`cd /etc/letsencrypt/live/<FQDN>`
+
+Combine the certificate and intermediate certificate into a chain certificate.
+`cat cert.pem chain.pem > cert_chain.pem`
+
+Copy `privkey.pem` and `cert_chain.pem` to kanidm volume.
+Update your `server.toml` file like:
+
+```
+tls_cert = /path/to/cert_chain.pem
+tls_key = /path/to/privkey.pem
+```
